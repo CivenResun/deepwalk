@@ -28,7 +28,7 @@ def count_words(file):
   c = Counter()
   with open(file, 'r') as f:
     for l in f:
-      words = l.strip().split()
+      words = l.strip().split()         #去掉头尾空格，剩余单词按空格分开。之后计数
       c.update(words)
   return c
 
@@ -71,8 +71,8 @@ def write_walks_to_disk(G, filebase, num_paths, path_length, alpha=0, rand=rando
   if num_paths <= num_workers:
     paths_per_worker = [1 for x in range(num_paths)]
   else:
-    paths_per_worker = [len(list(filter(lambda z: z!= None, [y for y in x])))
-                        for x in graph.grouper(int(num_paths / num_workers)+1, range(1, num_paths+1))]
+    paths_per_worker = [len(list(filter(lambda z: z!= None, [y for y in x])))       #filter 过滤指定列表元素
+                        for x in graph.grouper(int(num_paths / num_workers)+1, range(1, num_paths+1))] 
 
   with ProcessPoolExecutor(max_workers=num_workers) as executor:
     for size, file_, ppw in zip(executor.map(count_lines, files_list), files_list, paths_per_worker):
